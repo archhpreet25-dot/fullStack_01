@@ -172,7 +172,9 @@ async function loadSession() {
     await loadTransactions();
     await renderDashboard();
     await loadBudget();
-  } catch {
+  } catch (error) {
+    console.error('Session check failed:', error);
+
     currentUser = null;
     transactions = [];
 
