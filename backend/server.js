@@ -16,16 +16,14 @@ if (!MONGODB_URI || !JWT_SECRET || JWT_SECRET.length < 32) {
 }
 app.disable('x-powered-by');
 app.use(cors({
-  origin: [
-    'http://127.0.0.1:5500',
-    'http://127.0.0.1:5501',
-    'http://localhost:5500',
-    'http://localhost:5501'
-  ],
+  origin: 'https://spendsmart-frontend-pearl.vercel.app',
   credentials: true
 }));
+
 app.use(express.json({ limit: '20kb' }));
 app.use(cookieParser());
+
+// Existing API routes yahin rahenge
 app.get('/api/health', (_req, res) => res.json({ status: 'ok', database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected' }));
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);

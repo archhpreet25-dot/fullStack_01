@@ -1,4 +1,4 @@
-const API = 'https://spendsmart-api-pypj.onrender.com';
+const API = 'https://spendsmart-api-pypj.onrender.com/api';
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
 
