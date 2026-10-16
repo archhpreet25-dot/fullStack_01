@@ -136,7 +136,6 @@ async function onAuthSubmit(event) {
 
   const email = $('#authEmail').value.trim();
   const password = $('#authPassword').value;
-
   const payload = { email, password };
 
   if (authMode === 'register') {
@@ -149,15 +148,27 @@ async function onAuthSubmit(event) {
       body: JSON.stringify(payload)
     });
 
+    if (!data.user) {
+      throw new Error('Login response did not include a user.');
+    }
+
     currentUser = data.user;
-
-    message(data.message || 'Success!', 'success');
-
     $('#authForm').reset();
 
-    await loadSession();
+    const session = await api('/auth/me');
+    currentUser = session.user;
+
+    showApp();
+    await loadTransactions();
+    await renderDashboard();
+    await loadBudget();
+
+    message(data.message || 'Login successful!', 'success');
   } catch (error) {
-    message(error.message);
+    console.error('Authentication failed:', error);
+    currentUser = null;
+    showAuth();
+    message(error.message || 'Login failed. Please try again.');
   }
 }
 
