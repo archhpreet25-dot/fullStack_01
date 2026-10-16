@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101827">
+
+  <title>SpendSmart — Personal Finance</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <main id="authView" class="auth-layout">
+    <section class="auth-promo">
+      <a class="brand brand-light" href="#">
+        <span class="brand-mark">S</span> SpendSmart
+      </a>
+
+      <div class="promo-copy">
+        <span class="eyebrow">YOUR MONEY, IN FOCUS</span>
+
+        <h1>Small steps.<br><span>Smarter money.</span></h1>
+
+        <p>
+          Understand your spending, set clear goals, and feel more confident
+          about every financial decision.
+        </p>
+
+        <div class="promo-stat">
+          <div class="stat-icon">↗</div>
+
+          <div>
+            <strong>Your finances, organized</strong>
+            <small>Income · Spending · Monthly budgets</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="promo-bottom">
+        A clearer view of your money starts here.
+      </div>
+    </section>
+
+    <section class="auth-side">
+      <div class="auth-card">
+        <div class="mobile-brand brand">
+          <span class="brand-mark">S</span> SpendSmart
+        </div>
+
+        <div class="auth-heading">
+          <span class="eyebrow" id="authEyebrow">WELCOME BACK</span>
+          <h2 id="authTitle">Log in to your account</h2>
+          <p id="authSubtitle">Pick up where you left off.</p>
+        </div>
+
+        <form id="authForm">
+          <div id="nameField" class="field hidden">
+            <label for="authName">Full name</label>
+            <input
+              id="authName"
+              name="name"
+              autocomplete="name"
+              minlength="2"
+              maxlength="60"
+              placeholder="Your name"
+            >
+          </div>
+
+          <div class="field">
+            <label for="authEmail">Email address</label>
+            <input
+              id="authEmail"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              maxlength="254"
+              placeholder="you@example.com"
+            >
+          </div>
+
+          <div class="field">
+            <label for="authPassword">Password</label>
+            <input
+              id="authPassword"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+              minlength="8"
+              maxlength="72"
+              placeholder="At least 8 characters"
+            >
+            <small id="passwordHint" class="hint hidden">
+              Use at least 8 characters.
+            </small>
+          </div>
+
+          <button id="authSubmit" class="btn btn-primary btn-wide" type="submit">
+            Log in <span>→</span>
+          </button>
+        </form>
+
+        <p class="auth-switch">
+          <span id="switchText">New to SpendSmart?</span>
+          <button id="switchAuth" class="text-button" type="button">
+            Create an account
+          </button>
+        </p>
+
+        <p class="privacy-note">
+          Your account is private. Your data belongs to you.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <div id="appView" class="app-shell hidden">
+    <aside id="sidebar" class="sidebar">
+      <a class="brand" href="#">
+        <span class="brand-mark">S</span> SpendSmart
+      </a>
+
+      <div class="nav-label">WORKSPACE</div>
+
+      <nav class="main-nav">
+        <button class="nav-item active" data-page="overview">
+          <span>◫</span> Overview
+        </button>
+
+        <button class="nav-item" data-page="transactions">
+          <span>↕</span> Transactions
+        </button>
+
+        <button class="nav-item" data-page="budgets">
+          <span>◎</span> Budgets
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="help-card">
+          <div class="help-symbol">✦</div>
+          <strong>Build better habits</strong>
+          <p>Small changes add up over time.</p>
+        </div>
+
+        <button id="logoutBtn" class="nav-item logout">
+          <span>↪</span> Log out
+        </button>
+
+        <div class="user-mini">
+          <div id="avatar" class="avatar">U</div>
+
+          <div class="user-mini-copy">
+            <strong id="sidebarName">Your account</strong>
+            <small id="sidebarEmail">you@example.com</small>
+          </div>
+
+          <span class="online-dot"></span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button id="menuBtn" class="icon-btn menu-btn" aria-label="Toggle navigation">
+          ☰
+        </button>
+
+        <div>
+          <div class="top-kicker">PERSONAL FINANCE</div>
+          <h1 id="pageTitle">Overview</h1>
+        </div>
+
+        <div class="topbar-right">
+          <div class="date-pill">
+            <span>◷</span>
+            <span id="todayLabel"></span>
+          </div>
+
+          <button id="topAddBtn" class="btn btn-primary">
+            <span>＋</span> Add transaction
+          </button>
+        </div>
+      </header>
+
+      <section id="overviewPage" class="page-content">
+        <div class="welcome-row">
+          <div>
+            <h2>Good to see you, <span id="welcomeName">there</span> 👋</h2>
+            <p>Here’s what’s happening with your money.</p>
+          </div>
+
+          <div class="month-select">
+            <label for="dashboardMonth">Showing</label>
+            <input id="dashboardMonth" type="month">
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card balance-card">
+            <div class="stat-top">
+              <span>Total balance</span>
+              <span class="stat-badge">↗</span>
+            </div>
+
+            <strong id="balanceValue" class="stat-value">₹0.00</strong>
+            <small class="stat-caption">Income minus expenses · all time</small>
+            <div class="balance-decoration"></div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Income this month</span>
+              <span class="stat-icon income-icon">↙</span>
+            </div>
+
+            <strong id="incomeValue" class="stat-value">₹0.00</strong>
+            <small class="stat-caption">Money received this month</small>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Expenses this month</span>
+              <span class="stat-icon expense-icon">↗</span>
+            </div>
+
+            <strong id="expenseValue" class="stat-value">₹0.00</strong>
+            <small class="stat-caption">Money spent this month</small>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Monthly savings</span>
+              <span class="stat-icon savings-icon">✧</span>
+            </div>
+
+            <strong id="savingsValue" class="stat-value">₹0.00</strong>
+            <small class="stat-caption">Income minus expenses this month</small>
+          </article>
+        </div>
+
+        <div class="charts-grid">
+          <article class="panel chart-panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Cash flow</h3>
+                <p>Income and expenses by day this month</p>
+              </div>
+
+              <span class="panel-tag">THIS MONTH</span>
+            </div>
+
+            <div class="chart-wrap">
+              <canvas id="cashflowChart" aria-label="Cash flow chart"></canvas>
+            </div>
+          </article>
+
+          <article class="panel chart-panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Spending breakdown</h3>
+                <p>Where your money goes</p>
+              </div>
+            </div>
+
+            <div class="donut-wrap">
+              <canvas id="categoryChart" aria-label="Spending breakdown chart"></canvas>
+            </div>
+
+            <div id="categoryLegend" class="category-legend"></div>
+          </article>
+        </div>
+
+        <article class="panel table-panel">
+          <div class="panel-heading">
+            <div>
+              <h3>Recent transactions</h3>
+              <p>Your latest money activity</p>
+            </div>
+
+            <button class="text-button" data-go="transactions">View all →</button>
+          </div>
+
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>DESCRIPTION</th>
+                  <th>CATEGORY</th>
+                  <th>DATE</th>
+                  <th>AMOUNT</th>
+                </tr>
+              </thead>
+
+              <tbody id="recentRows"></tbody>
+            </table>
+          </div>
+
+          <div id="recentEmpty" class="empty-state hidden">
+            <span>✧</span>
+            <strong>No transactions yet</strong>
+            <p>Add your first transaction to see your activity here.</p>
+            <button class="btn btn-primary" data-open-modal>Add transaction</button>
+          </div>
+        </article>
+      </section>
+
+      <section id="transactionsPage" class="page-content hidden">
+        <div class="page-intro">
+          <div>
+            <h2>Transactions</h2>
+            <p>Keep track of every rupee in and out.</p>
+          </div>
+
+          <button class="btn btn-primary" data-open-modal>＋ Add transaction</button>
+        </div>
+
+        <article class="panel table-panel">
+          <div class="filters">
+            <input id="searchTransactions" type="search" placeholder="⌕ Search descriptions...">
+
+            <select id="filterType">
+              <option value="all">All types</option>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+
+            <select id="filterCategory">
+              <option value="all">All categories</option>
+              <option>Food</option>
+              <option>Transport</option>
+              <option>Shopping</option>
+              <option>Bills</option>
+              <option>Entertainment</option>
+              <option>Health</option>
+              <option>Education</option>
+              <option>Salary</option>
+              <option>Freelance</option>
+              <option>Investment</option>
+              <option>Other</option>
+            </select>
+
+            <input id="filterMonth" type="month" aria-label="Filter by month">
+
+            <button id="clearFilters" class="btn btn-quiet">Reset</button>
+            <button id="exportBtn" class="btn btn-outline">Export CSV ↓</button>
+          </div>
+
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>DESCRIPTION</th>
+                  <th>CATEGORY</th>
+                  <th>DATE</th>
+                  <th>TYPE</th>
+                  <th>AMOUNT</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+
+              <tbody id="transactionRows"></tbody>
+            </table>
+          </div>
+
+          <div id="transactionsEmpty" class="empty-state hidden">
+            <span>↕</span>
+            <strong>No transactions found</strong>
+            <p>Try changing your filters or add a transaction.</p>
+          </div>
+        </article>
+      </section>
+
+      <section id="budgetsPage" class="page-content hidden">
+        <div class="page-intro">
+          <div>
+            <h2>Monthly budgets</h2>
+            <p>Give your spending a plan, not a limit on your life.</p>
+          </div>
+
+          <div class="month-select">
+            <label for="budgetMonth">Month</label>
+            <input id="budgetMonth" type="month">
+          </div>
+        </div>
+
+        <div class="budget-layout">
+          <article class="panel budget-form-panel">
+            <div class="budget-illustration">◎</div>
+
+            <h3>Set your monthly budget</h3>
+            <p>Choose how much you want to spend this month. You can update it any time.</p>
+
+            <form id="budgetForm">
+              <div class="field">
+                <label for="budgetAmount">Monthly spending limit (₹)</label>
+                <input
+                  id="budgetAmount"
+                  type="number"
+                  min="0.01"
+                  max="1000000000000"
+                  step="0.01"
+                  placeholder="e.g. 15000"
+                  required
+                >
+              </div>
+
+              <button class="btn btn-primary btn-wide" type="submit">
+                Save budget <span>→</span>
+              </button>
+
+              <button id="removeBudgetBtn" class="btn btn-quiet btn-wide" type="button">
+                Remove budget
+              </button>
+            </form>
+          </article>
+
+          <article class="panel budget-progress-panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Your spending pace</h3>
+                <p id="budgetMonthText">Monthly overview</p>
+              </div>
+
+              <span class="budget-status" id="budgetStatus">NOT SET</span>
+            </div>
+
+            <div class="budget-amounts">
+              <div>
+                <small>Spent so far</small>
+                <strong id="budgetSpent">₹0.00</strong>
+              </div>
+
+              <div class="remaining-amount">
+                <small>Budget remaining</small>
+                <strong id="budgetRemaining">—</strong>
+              </div>
+            </div>
+
+            <div class="progress-track">
+              <div id="budgetProgress" class="progress-fill"></div>
+            </div>
+
+            <div class="progress-caption">
+              <span id="budgetPercent">Set a budget to start tracking</span>
+              <span id="budgetLimitText"></span>
+            </div>
+
+            <div id="budgetAdvice" class="budget-advice">
+              <span>✦</span>
+              <p>Set a monthly budget to get a clearer picture of your spending.</p>
+            </div>
+
+            <div class="budget-detail">
+              <span>Expense transactions</span>
+              <strong id="budgetCount">0</strong>
+            </div>
+
+            <div class="budget-detail">
+              <span>Income this month</span>
+              <strong id="budgetIncome">₹0.00</strong>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>© <span id="yearLabel"></span> SpendSmart</span>
+        <span>Make every rupee count <span class="footer-heart">✦</span></span>
+      </footer>
+    </main>
+  </div>
+
+  <div
+    id="transactionModal"
+    class="modal-backdrop hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+  >
+    <div class="modal">
+      <div class="modal-heading">
+        <div>
+          <span class="eyebrow">YOUR MONEY, ORGANIZED</span>
+          <h2 id="modalTitle">Add transaction</h2>
+        </div>
+
+        <button id="closeModal" class="icon-btn" type="button" aria-label="Close">
+          ✕
+        </button>
+      </div>
+
+      <form id="transactionForm">
+        <input id="transactionId" type="hidden">
+
+        <div class="type-toggle">
+          <label>
+            <input type="radio" name="transactionType" value="expense" checked>
+            <span>↗ Expense</span>
+          </label>
+
+          <label>
+            <input type="radio" name="transactionType" value="income">
+            <span>↙ Income</span>
+          </label>
+        </div>
+
+        <div class="field">
+          <label for="description">Description</label>
+          <input id="description" required maxlength="100" placeholder="e.g. Grocery shopping">
+        </div>
+
+        <div class="form-two-col">
+          <div class="field">
+            <label for="amount">Amount (₹)</label>
+            <input
+              id="amount"
+              type="number"
+              min="0.01"
+              max="1000000000000"
+              step="0.01"
+              required
+              placeholder="0.00"
+            >
+          </div>
+
+          <div class="field">
+            <label for="category">Category</label>
+            <select id="category" required>
+              <option>Food</option>
+              <option>Transport</option>
+              <option>Shopping</option>
+              <option>Bills</option>
+              <option>Entertainment</option>
+              <option>Health</option>
+              <option>Education</option>
+              <option>Salary</option>
+              <option>Freelance</option>
+              <option>Investment</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="transactionDate">Date</label>
+          <input id="transactionDate" type="date" required>
+        </div>
+
+        <div class="field">
+          <label for="notes">Notes <span class="optional">OPTIONAL</span></label>
+          <textarea id="notes" rows="2" maxlength="500" placeholder="Add a little context..."></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button id="cancelModal" class="btn btn-quiet" type="button">Cancel</button>
+          <button id="saveTransaction" class="btn btn-primary" type="submit">
+            Save transaction →
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
