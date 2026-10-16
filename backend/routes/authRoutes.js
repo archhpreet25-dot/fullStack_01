@@ -6,7 +6,13 @@ import User from '../models/User.js';
 import { requireAuth } from '../middleware/authMiddleware.js';
 const router = Router();
 const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 30, standardHeaders: true, legacyHeaders: false, message: { message: 'Too many attempts. Please try again later.' } });
-const cookieOptions = () => ({ httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1000, path: '/' });
+const cookieOptions = () => ({
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+  path: '/'
+});
 function setSession(res, user) { const token = jwt.sign({ sub: user._id.toString() }, process.env.JWT_SECRET, { expiresIn: '7d' }); res.cookie('spendsmart_token', token, cookieOptions()); }
 const safeUser = user => ({ id: user._id, name: user.name, email: user.email });
 router.post('/register', authLimiter, async (req, res, next) => {
@@ -33,6 +39,6 @@ router.post('/login', authLimiter, async (req, res, next) => {
     return res.json({ message: 'Login successful.', user: safeUser(user) });
   } catch (error) { return next(error); }
 });
-router.post('/logout', (_req, res) => { res.clearCookie('spendsmart_token', { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax', path: '/' }); res.json({ message: 'Logged out successfully.' }); });
+router.post('/logout', (_req, res) => { res.clearCookie('spendsmart_token', { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', path: '/' }); res.json({ message: 'Logged out successfully.' }); });
 router.get('/me', requireAuth, (req, res) => res.json({ user: safeUser(req.user) }));
 export default router;
